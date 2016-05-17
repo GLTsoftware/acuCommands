@@ -2,7 +2,7 @@
 #
 #CC = gcc -D LINUX -I$(GLOBALINC) -I$(COMMONINC) -L$(COMMONLIB) 
 CC = gcc 
-CFLAGS = -g -O -Wall
+CFLAGS = -g -O -Wall 
 ##LIB = -lrt $(COMMONLIB)/rm.o $(COMMONLIB)/libdsm.a $(COMMONLIB)/commonLib -lcurses -lm
 #LIB = -ldsm -lpthread -lsmapopt -lrt
 
