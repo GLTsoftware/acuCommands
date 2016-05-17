@@ -23,8 +23,7 @@ int main(int argc, char *argv[])
   char sendBuff[256];
   struct sockaddr_in serv_addr;
   acuStatus acuStatusResp;
-  acuCmd acuCommand;
-  acuAzElCmd acuAzElCommand;
+  acuAzElCmd acuAzElCommand ={0,0,0,0,0,0,0,0};
   double cmdAzdeg,cmdEldeg;
   short checksum;
 
@@ -61,22 +60,10 @@ int main(int argc, char *argv[])
 
   checksum = checkSum((char*)(&acuAzElCommand), sizeof(acuAzElCommand));
 
-/*
-  printf("checksum=%d 0x%x\n",checksum,checksum);
-*/
-
   if(checksum > 0xffff) checksum=checksum & 0xffff;
   
-
-/*
-  printf("after ... checksum=%d 0x%x\n",checksum,checksum);
-*/
   
   acuAzElCommand.checksum = checksum;
-
-/*
-  printf("sending ... checksum=0x%x\n",acuAzElCommand.checksum);
-*/
 
 
   memset(recvBuff, '0' ,sizeof(recvBuff));
@@ -145,4 +132,3 @@ short checkSum (char *buff,int size) {
            first and last bytes */
   return sum;
 }
-
