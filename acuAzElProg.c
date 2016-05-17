@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
   char sendBuff[256];
   struct sockaddr_in serv_addr;
   acuStatus acuStatusResp;
-  acuCmd acuCommand;
-  acuAzElProg acuAzElProgCommand;
-  short checksum,acuDayOfYear;
-  int acuTimeOfDay;
+  acuCmd acuCommand = {0,0,0,0,0};
+  acuAzElProg acuAzElProgCommand ={0,0,0,0,0,0,0,0,0,0};
+  short checksum=0,acuDayOfYear=0;
+  int acuTimeOfDay=0;
   int trackTime,newtime,timeForward=30000;
   int i,az,el;
   short clearstack;
@@ -90,7 +90,6 @@ int main(int argc, char *argv[])
   acuAzElProgCommand.stx = 0x2;
   acuAzElProgCommand.id = 0x4F; /* page 16 of ICD section 4.1.1.4  O cmd */
   acuAzElProgCommand.datalength = 0x17;
-
   acuAzElProgCommand.etx = 0x3;
 
   i=0;

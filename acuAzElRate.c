@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
   char sendBuff[256];
   struct sockaddr_in serv_addr;
   acuStatus acuStatusResp;
-  acuCmd acuCommand;
-  acuAzElCmd acuAzElRateCommand;
+  acuCmd acuCommand = {0,0,0,0,0};
+  acuAzElCmd acuAzElRateCommand = {0,0,0,0,0,0,0,0};
   double cmdAzRate,cmdElRate;
   short checksum;
 
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
   printf("ACU: ACK, OK \n");
   }
 
-  if (recvBuff[0]==0x2) {
+  if (recvBuff[0]!=0x6) {
   printf("ACU refuses the command...reason:");
   if (recvBuff[1]==0x43) printf("Checksum error.\n");
   if (recvBuff[1]==0x45) printf("ETX not received at expected position.\n");
