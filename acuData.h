@@ -106,26 +106,6 @@ typedef struct __attribute__ ((packed)) ioStatus {
     char etx;
 } ioStatus; 
 
-/* 1 command ACU ICD 4.1.4.1 p 34, 4.2.1.3, p 44 */
-typedef struct __attribute__ ((packed)) trackData {
-    char stx;
-    char id;
-    short datalength;
-    char CurrentTLEdataSetLine0[24];
-    char CurrentTLEdataSetLine1[69];
-    char CurrentTLEdataSetLine2[69];
-    int NextSampleTimeOfDay;
-    int NextSampleDayOfYear;
-    int NextSampleAzPos;
-    int NextSampleElPos;
-    int LOStimeOfDay;
-    int LOSdayOfYear;
-    int LOSazPos;
-    int LOSelPos;
-    short checksum;
-    char etx;
-} trackData;
-
 /* v command ACU ICD 4.1.4.1 p 34, 4.2.1.4, p 45 */
 typedef struct __attribute__ ((packed)) metrologyData {
     char stx;
@@ -280,3 +260,22 @@ typedef struct __attribute__ ((packed)) selfTestResults {
    short checksum;
    char etx;
 } selfTestResults;
+
+typedef struct __attribute__ ((packed)) twoLineTrackstatus {
+   char stx;
+   char id;
+   short datalength;
+   char currentTLEline0[24];
+   char currentTLEline1[69];
+   char currentTLEline2[69];
+   int nextSampleTimeOfDay;
+   short nextSampleDayOfYear;
+   int nextSampleAzimuth;
+   int nextSampleElevation;
+   int LOStimeOfDay;
+   short LOSdayOfYear;
+   int LOSazimuth;
+   int LOSelevation;
+   short checksum;
+   char etx;
+} twoLineTrackstatus;

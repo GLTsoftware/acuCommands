@@ -20,7 +20,7 @@ int main(void)
   int sockfd = 0,n = 0;
   char recvBuff[256];
   char sendBuff[256];
-  int days,hh,mm;
+  int hh,mm;
   double hours,minutes,seconds;
   struct sockaddr_in serv_addr;
   acuStatus acuStatusResp;
@@ -41,8 +41,8 @@ int main(void)
     }
  
   serv_addr.sin_family = AF_INET;
-  serv_addr.sin_port = htons(9010);
-  serv_addr.sin_addr.s_addr = inet_addr("172.16.5.95");
+  serv_addr.sin_port = htons(9110);
+  serv_addr.sin_addr.s_addr = inet_addr("192.168.1.103");
  
   if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr))<0) {
       printf("\n Error : Connect Failed \n");
@@ -56,18 +56,20 @@ int main(void)
  
   /* receive the ACK response from ACU */
   n = recv(sockfd, recvBuff, sizeof(acuStatusResp),0); 
+  
 
   if( n < 0)  printf("\n Read Error \n"); 
 
   /* check if ACK is received, then receive the response and parse it */
+
+  printf ("byte 0: 0x%x, byte 1: 0x%x\n",recvBuff[0],recvBuff[1]);
+
   if (recvBuff[0]==0x6) {
 
   n = recv(sockfd, (char *)&acuStatusResp, sizeof(acuStatusResp),0);
 
-/*
   printf("Read %d bytes from ACU\n",n);
   printf ("Received %d bytes from ACU.\n",acuStatusResp.datalength);
-*/
 printf("Time: %d\n",acuStatusResp.timeOfDay);
   hours = acuStatusResp.timeOfDay/3600000.;
   hh = (int)hours;
@@ -97,19 +99,19 @@ printf("Time: %d\n",acuStatusResp.timeOfDay);
   if (acuStatusResp.azStatusMode == 0x9) printf(" Az Star Track.\n");
   if (acuStatusResp.azStatusMode == 0x29) printf(" Az Sun Track.\n");
 
-  if (acuStatusResp.elStatusMode == 1) printf(" El stop.\n");
-  if (acuStatusResp.elStatusMode == 33) printf(" El Maintenance.\n");
-  if (acuStatusResp.elStatusMode == 2) printf(" El Preset.\n");
-  if (acuStatusResp.elStatusMode == 3) printf(" El Program Track.\n");
-  if (acuStatusResp.elStatusMode == 4) printf(" El Rate.\n");
-  if (acuStatusResp.elStatusMode == 5) printf(" El Sector Scan.\n");
-  if (acuStatusResp.elStatusMode == 6) printf(" El Survival Position (stow).\n");
-  if (acuStatusResp.elStatusMode == 14) printf(" El Maintenance Position (stow).\n");
-  if (acuStatusResp.elStatusMode == 78) printf(" El Stow (stow pins not retracted).\n");
-  if (acuStatusResp.elStatusMode == 38) printf(" El unstow.\n");
-  if (acuStatusResp.elStatusMode == 8) printf(" El Two line track.\n");
-  if (acuStatusResp.elStatusMode == 9) printf(" El Star Track.\n");
-  if (acuStatusResp.elStatusMode == 41) printf(" El Sun Track.\n");
+  if (acuStatusResp.elStatusMode == 0x1) printf(" El stop.\n");
+  if (acuStatusResp.elStatusMode == 0x21) printf(" El Maintenance.\n");
+  if (acuStatusResp.elStatusMode == 0x2) printf(" El Preset.\n");
+  if (acuStatusResp.elStatusMode == 0x3) printf(" El Program Track.\n");
+  if (acuStatusResp.elStatusMode == 0x4) printf(" El Rate.\n");
+  if (acuStatusResp.elStatusMode == 0x5) printf(" El Sector Scan.\n");
+  if (acuStatusResp.elStatusMode == 0x6) printf(" El Survival Position (stow).\n");
+  if (acuStatusResp.elStatusMode == 0xe) printf(" El Maintenance Position (stow).\n");
+  if (acuStatusResp.elStatusMode == 0x4e) printf(" El Stow (stow pins not retracted).\n");
+  if (acuStatusResp.elStatusMode == 0x26) printf(" El unstow.\n");
+  if (acuStatusResp.elStatusMode == 0x8) printf(" El Two line track.\n");
+  if (acuStatusResp.elStatusMode == 0x9) printf(" El Star Track.\n");
+  if (acuStatusResp.elStatusMode == 0x29) printf(" El Sun Track.\n");
 
   if (acuStatusResp.servoSystemStatusAz[0] & 1) 
 		printf(" Az emergency limit.\n");

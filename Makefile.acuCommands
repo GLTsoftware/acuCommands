@@ -4,32 +4,46 @@
 CC = gcc -D LINUX -I /global/dsm64 -L /global/dsm64 
 CFLAGS = -g -O -Wall 
 ##LIB = -lrt $(COMMONLIB)/rm.o $(COMMONLIB)/libdsm.a $(COMMONLIB)/commonLib -lcurses -lm
-LIB = -ldsm -lpthread -lpopt -lrt
+LIB = -ldsm -lpthread -lpopt -lrt -lpthread -lhiredis
+INC = -I/usr/local/include/hiredis
 
 
 SOURCES = acuAzEl.c acuAuxMode.c acuAzElProg.c acuAzElRate.c acuFailReset.c \
           acuIOstatus.c acuMetrology.c acuMode.c acuReboot.c acuStatus.c \
           acuAzElOffset.c acuShutter.c acuEncodersTilts.c \
-          acuEncoders.c readAzEl.c acuSelftestResults.c
+          acuEncoders.c readAzEl.c acuSelftestResults.c \
+          acuTwoLine.c acuTwoLineStatus.c acuMonitor.c metrology.c
 
 OBJECTS = acuAzEl.o acuAuxMode.o acuAzElProg.o acuAzElRate.o acuFailReset.o \
           acuIOstatus.o acuMetrology.o acuMode.o acuReboot.o acuStatus.o \
           acuAzElOffset.o acuShutter.o acuEncodersTilts.o \
-          acuEncoders.o readAzEl.o acuSelftestResults.o
+          acuEncoders.o readAzEl.o acuSelftestResults.o \
+          acuTwoLine.o acuTwoLineStatus.o acuMonitor.o metrology.o
 
 all: acuAzEl acuAuxMode acuAzElProg acuAzElRate acuFailReset \
      acuIOstatus acuMetrology acuMode acuReboot acuStatus \
-     acuAzElOffset acuShutter acuEncoders acuEncodersTilts readAzEl acuSelftestResults
+     acuAzElOffset acuShutter acuEncoders acuEncodersTilts readAzEl \
+     acuSelftestResults acuTwoLine acuTwoLineStatus acuMonitor
 
 clean:
 	rm *.o \
         ./acuAzEl ./acuAuxMode ./acuAzElProg ./acuAzElRate ./acuFailReset \
          ./acuIOstatus ./acuMetrology ./acuMode ./acuReboot ./acuStatus \
           ./acuAzElOffset ./acuShutter \
-          ./acuEncoders ./acuEncodersTilts
+          ./acuEncoders ./acuEncodersTilts ./acuTwoLine ./acuTwoLineStatus ./acuMonitor
 
+metrology.o : metrology.c
+	$(CC) -c metrology.c $(INC)
+acuMonitor.o : acuMonitor.c metrology.c
+	$(CC) -c acuMonitor.c $(INC)
+acuMonitor : acuMonitor.o metrology.o
+	$(CC) -o acuMonitor acuMonitor.o metrology.o $(LIB)
 acuSelftestResults : acuSelftestResults.o
 	$(CC) -o acuSelftestResults acuSelftestResults.o $(LIB)
+acuTwoLine : acuTwoLine.o
+	$(CC) -o acuTwoLine acuTwoLine.o $(LIB)
+acuTwoLineStatus : acuTwoLineStatus.o
+	$(CC) -o acuTwoLineStatus acuTwoLineStatus.o $(LIB)
 readAzEl : readAzEl.o
 	$(CC) -o readAzEl readAzEl.o $(LIB)
 acuEncoders : acuEncoders.o
@@ -69,6 +83,6 @@ acuAzElOffset : acuAzElOffset.o
 #	$(CC) -o az $(OBJECTS) $(LIB)
 
 depend: ./Makefile
-	$(CC) -MM $(SOURCES) > dependencies
+	$(CC) -MM $(SOURCES) $(INC) > dependencies
 
 include dependencies

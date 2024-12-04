@@ -17,7 +17,11 @@
 #include "acuCommands.h"
 #include "dsm.h"
 
+/*
 #define ACC 140.109.177.49
+*/
+
+#define ACC "gltobscon"
  
 int main(void)
 {
@@ -48,7 +52,7 @@ int main(void)
  
   serv_addr.sin_family = AF_INET;
   serv_addr.sin_port = htons(9110);
-  serv_addr.sin_addr.s_addr = inet_addr("172.16.5.95");
+  serv_addr.sin_addr.s_addr = inet_addr("192.168.1.103");
  
   if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr))<0) {
       printf("\n Error : Connect Failed \n");
@@ -101,24 +105,24 @@ printf("Time: %d\n",acuStatusResp.timeOfDay);
 
 printf("writing az value=%f to dsm.\n",az);
 
-  dsm_status = dsm_write("140.109.177.49","DSM_AZ_POSN_DEG_D",&az);
+  dsm_status = dsm_write(ACC,"DSM_AZ_POSN_DEG_D",&az);
   if (dsm_status != DSM_SUCCESS) {
-  printf("Warning: DSM write failed!\n");
+  printf("Warning: DSM write failed! dsm_status=%d\n",dsm_status);
   }
 
 printf("writing az value=%f to dsm.\n",az);
 
-  dsm_status = dsm_write("140.109.177.49","DSM_AZ_POSN_DEG_D",&az);
+  dsm_status = dsm_write(ACC,"DSM_AZ_POSN_DEG_D",&az);
   if (dsm_status != DSM_SUCCESS) {
-  printf("Warning: DSM write failed!\n");
+  printf("Warning: DSM write failed! dsm_status=%d\n",dsm_status);
   }
 
 printf("writing el value=%f to dsm.\n",el);
 
-  dsm_status = dsm_write("140.109.177.49","DSM_EL_POSN_DEG_D",&el);
+  dsm_status = dsm_write(ACC,"DSM_EL_POSN_DEG_D",&el);
 
   if (dsm_status != DSM_SUCCESS) {
-  printf("Warning: DSM write failed!\n");
+  printf("Warning: DSM write failed! dsm_status=%d\n",dsm_status);
   }
 
 

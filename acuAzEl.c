@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
  
   serv_addr.sin_family = AF_INET;
   serv_addr.sin_port = htons(9010);
-  serv_addr.sin_addr.s_addr = inet_addr("172.16.5.95");
+  serv_addr.sin_addr.s_addr = inet_addr("192.168.1.103");
  
   if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr))<0) {
       printf("\n Error : Connect Failed \n");
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
   printf("ACU: ACK, OK \n");
   }
 
-  if (recvBuff[0]==0x2) {
+  if (recvBuff[0]!=0x6) {
   printf("ACU refuses the command...reason:");
   if (recvBuff[1]==0x43) printf("Checksum error.\n");
   if (recvBuff[1]==0x45) printf("ETX not received at expected position.\n");

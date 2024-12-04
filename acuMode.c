@@ -35,9 +35,10 @@ int main(void)
   printf("(7) Survival stow\n");
   printf("(8) Maintenance stow\n");
   printf("(9) Unstow \n");
+  printf("(10) Two Line mode \n");
   scanf("%d",&commandCode);
 
-  if((commandCode<1)||(commandCode>9)) {
+  if((commandCode<1)||(commandCode>10)) {
   printf("Invalid command code.\n");
   exit(0);
   }
@@ -80,6 +81,9 @@ int main(void)
   case 9:
       acuModeCommand.azMode = 0x26; /* unstow */
       break;
+  case 10:
+      acuModeCommand.azMode = 0x8; /* two line tracking */
+      break;
   }
 
   printf("sending preset code: 0x%x\n",acuModeCommand.azMode);
@@ -98,7 +102,7 @@ int main(void)
  
   serv_addr.sin_family = AF_INET;
   serv_addr.sin_port = htons(9010);
-  serv_addr.sin_addr.s_addr = inet_addr("172.16.5.95");
+  serv_addr.sin_addr.s_addr = inet_addr("192.168.1.103");
  
   if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr))<0) {
       printf("\n Error : Connect Failed \n");
@@ -120,10 +124,8 @@ int main(void)
   if (recvBuff[0]==0x6) {
 
   printf("ACU: ACK, OK \n");
-  }
-
-  if (recvBuff[0]==0x2) {
-  printf("ACU refuses the command...reason:");
+  } else {
+  printf("ACU refuses the command...reason: 0x%x\n",recvBuff[1]);
   if (recvBuff[1]==0x43) printf("Checksum error.\n");
   if (recvBuff[1]==0x45) printf("ETX not received at expected position.\n");
   if (recvBuff[1]==0x49) printf("Unknown identifier.\n");

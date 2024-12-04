@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
  
   serv_addr.sin_family = AF_INET;
   serv_addr.sin_port = htons(9010);
-  serv_addr.sin_addr.s_addr = inet_addr("172.16.5.95");
+  serv_addr.sin_addr.s_addr = inet_addr("192.168.1.103");
  
   if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr))<0) {
       printf("\n Error : Connect Failed \n");

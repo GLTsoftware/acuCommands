@@ -1,0 +1,72 @@
+##gcc -I/global/include -I/common/include -L/common/lib -o az az.c -ldsm -lpthread -lsmapopt -lrt
+#
+#CC = gcc -D LINUX -I$(GLOBALINC) -I$(COMMONINC) -L$(COMMONLIB) 
+CC = gcc -D LINUX -I /global/dsm64 -L /global/dsm64 
+CFLAGS = -g -O -Wall 
+##LIB = -lrt $(COMMONLIB)/rm.o $(COMMONLIB)/libdsm.a $(COMMONLIB)/commonLib -lcurses -lm
+LIB = -ldsm -lpthread -lpopt -lrt
+
+
+SOURCES = acuAzEl.c acuAuxMode.c acuAzElProg.c acuAzElRate.c acuFailReset.c \
+          acuIOstatus.c acuMetrology.c acuMode.c acuReboot.c acuStatus.c \
+          acuWriteAzElDSM.c acuReadAzElDSM.c acuAzElOffset.c acuShutter.c \
+          acuEncoders.c readAzEl.c
+
+OBJECTS = acuAzEl.o acuAuxMode.o acuAzElProg.o acuAzElRate.o acuFailReset.o \
+          acuIOstatus.o acuMetrology.o acuMode.o acuReboot.o acuStatus.o \
+          acuWriteAzElDSM.o acuReadAzElDSM.o acuAzElOffset.o acuShutter.o \
+          acuEncoders.o readAzEl.o
+
+all: acuAzEl acuAuxMode acuAzElProg acuAzElRate acuFailReset \
+     acuIOstatus acuMetrology acuMode acuReboot acuStatus \
+     acuWriteAzElDSM acuReadAzElDSM acuAzElOffset acuShutter acuEncoders readAzEl
+
+clean:
+	rm *.o \
+        ./acuAzEl ./acuAuxMode ./acuAzElProg ./acuAzElRate ./acuFailReset \
+         ./acuIOstatus ./acuMetrology ./acuMode ./acuReboot ./acuStatus \
+          ./acuWriteAzElDSM ./acuReadAzElDSM ./acuAzElOffset ./acuShutter \
+          ./acuEncoders
+
+readAzEl : readAzEl.o
+	$(CC) -o readAzEl readAzEl.o $(LIB)
+acuEncoders : acuEncoders.o
+	$(CC) -o acuEncoders acuEncoders.o $(LIB)
+acuShutter : acuShutter.o
+	$(CC) -o acuShutter acuShutter.o $(LIB)
+acuAzEl : acuAzEl.o
+	$(CC) -o acuAzEl acuAzEl.o $(LIB)
+acuAuxMode : acuAuxMode.o
+	$(CC) -o acuAuxMode acuAuxMode.o  $(LIB)
+acuAzElProg : acuAzElProg.o
+	$(CC) -o acuAzElProg acuAzElProg.o  $(LIB)
+acuAzElRate : acuAzElRate.o
+	$(CC) -o acuAzElRate acuAzElRate.o  $(LIB)
+acuFailReset : acuFailReset.o
+	$(CC) -o acuFailReset acuFailReset.o  $(LIB)
+acuIOstatus : acuIOstatus.o
+	$(CC) -o acuIOstatus acuIOstatus.o  $(LIB)
+acuMetrology : acuMetrology.o
+	$(CC) -o acuMetrology acuMetrology.o  $(LIB)
+acuMode : acuMode.o
+	$(CC) -o acuMode acuMode.o  $(LIB)
+acuReboot : acuReboot.o
+	$(CC) -o acuReboot acuReboot.o  $(LIB)
+acuStatus : acuStatus.o
+	$(CC) -o acuStatus acuStatus.o  $(LIB)
+acuWriteAzElDSM : acuWriteAzElDSM.o
+	$(CC) -o acuWriteAzElDSM acuWriteAzElDSM.o /global/dsm64/libdsm64.a
+acuAzElOffset : acuAzElOffset.o
+	$(CC) -o acuAzElOffset acuAzElOffset.o  $(LIB)
+
+#install: all
+#	cp stop $(OBSBIN)/
+#	cp engage $(OBSBIN)/
+
+#az: $(OBJECTS) ./Makefile.gltcommands
+#	$(CC) -o az $(OBJECTS) $(LIB)
+
+depend: ./Makefile
+	$(CC) -MM $(SOURCES) > dependencies
+
+include dependencies

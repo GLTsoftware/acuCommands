@@ -1,6 +1,3 @@
-/* In the following, id, datalength and checksum are set
-for each command as needed */
-
 typedef struct __attribute__ ((packed)) acuCmd {
     char stx;
     char id;
@@ -55,3 +52,26 @@ typedef struct __attribute__ ((packed)) acuAzElProg {
     short checksum;
     char etx;
 } acuAzElProg; 
+
+typedef struct __attribute__ ((packed)) acuAzElOffsetCmd {
+    char stx;
+    char id;
+    short datalength;
+    int timeOffset __attribute__ ((packed));
+    int azOffset __attribute__ ((packed));
+    int elOffset __attribute__ ((packed));
+    int polOffset __attribute__ ((packed));
+    short checksum;
+    char etx;
+} acuAzElOffsetCmd;
+
+typedef struct __attribute__ ((packed)) acuTwoLineCmd {
+    char stx;
+    char id;
+    short datalength;
+    char line0[24];
+    char line1[69];
+    char line2[69];
+    short checksum;
+    char etx;
+} acuTwoLineCmd; 

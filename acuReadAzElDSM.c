@@ -15,7 +15,7 @@
 
 #include "dsm.h"
 
-#define ACC 140.109.177.49
+#define ACC "172.16.5.246"
  
 int main(void)
 {
@@ -29,9 +29,9 @@ int main(void)
     exit(-1);
   }
 
-  dsm_status = dsm_read("140.109.177.49","DSM_AZ_POSN_DEG_D",&az,&timestamp);
-  dsm_status = dsm_read("140.109.177.49","DSM_AZ_POSN_DEG_D",&az,&timestamp);
-  dsm_status = dsm_read("140.109.177.49","DSM_EL_POSN_DEG_D",&el,&timestamp);
+  dsm_status = dsm_read(ACC,"DSM_AZ_POSN_DEG_D",&az,&timestamp);
+  dsm_status = dsm_read(ACC,"DSM_AZ_POSN_DEG_D",&az,&timestamp);
+  dsm_status = dsm_read(ACC,"DSM_EL_POSN_DEG_D",&el,&timestamp);
 
   if (dsm_status != DSM_SUCCESS) {
   printf("Warning: DSM read failed!\n");

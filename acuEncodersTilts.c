@@ -87,13 +87,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear1,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos1/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos1/1.0e6);
-  printf ("tilt1x1 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y1 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x1 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y1 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x1 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y1 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos1/1.0e6);
+  printf ("tilt1x1 (arcsec): %f ",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y1 (arcsec): %f ",(double)acuEncodersResp.tilt1y1*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x1 (arcsec): %f ",(double)acuEncodersResp.tilt2x1*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y1 (arcsec): %f ",(double)acuEncodersResp.tilt2y1*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x1 (arcsec): %f ",(double)acuEncodersResp.tilt3x1*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y1 (arcsec): %f \n",(double)acuEncodersResp.tilt3y1*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay2/3600000.;
   hh = (int)hours;
@@ -102,13 +102,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear2,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos2/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos2/1.0e6);
-  printf ("tilt1x2 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y2 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x2 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y2 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x2 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y2 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos2/1.0e6);
+  printf ("tilt1x2 (arcsec): %f ",(double)acuEncodersResp.tilt1x2*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y2 (arcsec): %f ",(double)acuEncodersResp.tilt1y2*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x2 (arcsec): %f ",(double)acuEncodersResp.tilt2x2*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y2 (arcsec): %f ",(double)acuEncodersResp.tilt2y2*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x2 (arcsec): %f ",(double)acuEncodersResp.tilt3x2*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y2 (arcsec): %f \n",(double)acuEncodersResp.tilt3y2*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay3/3600000.;
   hh = (int)hours;
@@ -117,13 +117,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear3,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos3/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos3/1.0e6);
-  printf ("tilt1x3 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y3 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x3 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y3 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x3 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y3 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos3/1.0e6);
+  printf ("tilt1x3 (arcsec): %f ",(double)acuEncodersResp.tilt1x3*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y3 (arcsec): %f ",(double)acuEncodersResp.tilt1y3*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x3 (arcsec): %f ",(double)acuEncodersResp.tilt2x3*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y3 (arcsec): %f ",(double)acuEncodersResp.tilt2y3*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x3 (arcsec): %f ",(double)acuEncodersResp.tilt3x3*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y3 (arcsec): %f \n",(double)acuEncodersResp.tilt3y3*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay4/3600000.;
   hh = (int)hours;
@@ -132,13 +132,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear4,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos4/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos4/1.0e6);
-  printf ("tilt1x4 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y4 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x4 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y4 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x4 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y4 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos4/1.0e6);
+  printf ("tilt1x4 (arcsec): %f ",(double)acuEncodersResp.tilt1x4*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y4 (arcsec): %f ",(double)acuEncodersResp.tilt1y4*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x4 (arcsec): %f ",(double)acuEncodersResp.tilt2x4*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y4 (arcsec): %f ",(double)acuEncodersResp.tilt2y4*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x4 (arcsec): %f ",(double)acuEncodersResp.tilt3x4*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y4 (arcsec): %f \n",(double)acuEncodersResp.tilt3y4*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay5/3600000.;
   hh = (int)hours;
@@ -147,13 +147,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear5,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos5/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos5/1.0e6);
-  printf ("tilt1x5 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y5 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x5 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y5 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x5 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y5 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos5/1.0e6);
+  printf ("tilt1x5 (arcsec): %f ",(double)acuEncodersResp.tilt1x5*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y5 (arcsec): %f ",(double)acuEncodersResp.tilt1y5*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x5 (arcsec): %f ",(double)acuEncodersResp.tilt2x5*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y5 (arcsec): %f ",(double)acuEncodersResp.tilt2y5*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x5 (arcsec): %f ",(double)acuEncodersResp.tilt3x5*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y5 (arcsec): %f \n",(double)acuEncodersResp.tilt3y5*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay6/3600000.;
   hh = (int)hours;
@@ -162,13 +162,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear6,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos6/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos6/1.0e6);
-  printf ("tilt1x6 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y6 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x6 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y6 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x6 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y6 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos6/1.0e6);
+  printf ("tilt1x6 (arcsec): %f ",(double)acuEncodersResp.tilt1x6*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y6 (arcsec): %f ",(double)acuEncodersResp.tilt1y6*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x6 (arcsec): %f ",(double)acuEncodersResp.tilt2x6*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y6 (arcsec): %f ",(double)acuEncodersResp.tilt2y6*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x6 (arcsec): %f ",(double)acuEncodersResp.tilt3x6*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y6 (arcsec): %f \n",(double)acuEncodersResp.tilt3y6*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay7/3600000.;
   hh = (int)hours;
@@ -177,13 +177,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear7,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos7/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos7/1.0e6);
-  printf ("tilt1x7 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y7 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x7 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y7 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x7 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y7 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos7/1.0e6);
+  printf ("tilt1x7 (arcsec): %f ",(double)acuEncodersResp.tilt1x7*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y7 (arcsec): %f ",(double)acuEncodersResp.tilt1y7*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x7 (arcsec): %f ",(double)acuEncodersResp.tilt2x7*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y7 (arcsec): %f ",(double)acuEncodersResp.tilt2y7*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x7 (arcsec): %f ",(double)acuEncodersResp.tilt3x7*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y7 (arcsec): %f \n",(double)acuEncodersResp.tilt3y7*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay8/3600000.;
   hh = (int)hours;
@@ -192,13 +192,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear8,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos8/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos8/1.0e6);
-  printf ("tilt1x8 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y8 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x8 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y8 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x8 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y8 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos8/1.0e6);
+  printf ("tilt1x8 (arcsec): %f ",(double)acuEncodersResp.tilt1x8*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y8 (arcsec): %f ",(double)acuEncodersResp.tilt1y8*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x8 (arcsec): %f ",(double)acuEncodersResp.tilt2x8*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y8 (arcsec): %f ",(double)acuEncodersResp.tilt2y8*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x8 (arcsec): %f ",(double)acuEncodersResp.tilt3x8*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y8 (arcsec): %f \n",(double)acuEncodersResp.tilt3y8*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay9/3600000.;
   hh = (int)hours;
@@ -207,13 +207,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear9,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos9/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos9/1.0e6);
-  printf ("tilt1x9 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y9 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x9 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y9 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x9 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y9 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos9/1.0e6);
+  printf ("tilt1x9 (arcsec): %f ",(double)acuEncodersResp.tilt1x9*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y9 (arcsec): %f ",(double)acuEncodersResp.tilt1y9*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x9 (arcsec): %f ",(double)acuEncodersResp.tilt2x9*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y9 (arcsec): %f ",(double)acuEncodersResp.tilt2y9*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x9 (arcsec): %f ",(double)acuEncodersResp.tilt3x9*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y9 (arcsec): %f \n",(double)acuEncodersResp.tilt3y9*MICRODEG_TO_ARCSEC);
 
   hours = acuEncodersResp.timeOfDay10/3600000.;
   hh = (int)hours;
@@ -222,13 +222,13 @@ int main(void)
   seconds = (minutes-mm)*60.;
   printf ("Time: (day, hh:mm:ss.sss):  %d %02d:%02d:%02.3f ",acuEncodersResp.dayOfYear10,hh,mm,seconds);
   printf ("azPos (deg): %f ",(double)acuEncodersResp.azPos10/1.0e6);
-  printf ("elPos (deg): %f \n",(double)acuEncodersResp.elPos10/1.0e6);
-  printf ("tilt1x10 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt1y10 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2x10 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt2y10 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3x10 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
-  printf ("tilt3y10 (arcsec): %f \n",(double)acuEncodersResp.tilt1x1*MICRODEG_TO_ARCSEC);
+  printf ("elPos (deg): %f ",(double)acuEncodersResp.elPos10/1.0e6);
+  printf ("tilt1x10 (arcsec): %f ",(double)acuEncodersResp.tilt1x10*MICRODEG_TO_ARCSEC);
+  printf ("tilt1y10 (arcsec): %f ",(double)acuEncodersResp.tilt1y10*MICRODEG_TO_ARCSEC);
+  printf ("tilt2x10 (arcsec): %f ",(double)acuEncodersResp.tilt2x10*MICRODEG_TO_ARCSEC);
+  printf ("tilt2y10 (arcsec): %f ",(double)acuEncodersResp.tilt2y10*MICRODEG_TO_ARCSEC);
+  printf ("tilt3x10 (arcsec): %f ",(double)acuEncodersResp.tilt3x10*MICRODEG_TO_ARCSEC);
+  printf ("tilt3y10 (arcsec): %f \n",(double)acuEncodersResp.tilt3y10*MICRODEG_TO_ARCSEC);
 
 /*
   if (recvBuff[0]==0x2) {
