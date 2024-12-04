@@ -32,8 +32,11 @@ int main(void) {
     ioStatus ioStatusResp;
     acuCmd acuCommand;
     short azmotor1temp, azmotor2temp, elmotor1temp, elmotor2temp;
+    short elmotor3temp, elmotor4temp;
     short az1motorcurrent, az2motorcurrent, el1motorcurrent, el2motorcurrent;
+    short el3motorcurrent, el4motorcurrent;
     float az1motorcurrentF, az2motorcurrentF, el1motorcurrentF, el2motorcurrentF;
+    float el3motorcurrentF,el4motorcurrentF;
 
     /* Construct the I/O Status Command */
     acuCommand.stx = 0x02;                       // Start byte
@@ -390,7 +393,9 @@ int main(void) {
   if (ioStatusResp.ServoPLCazimuthStatus[10] & 64)
                 printf(" Low level elevation.\n");
   if (ioStatusResp.ServoPLCazimuthStatus[10] & 128)
-                printf(" Jack screw fault.\n");  if (ioStatusResp.ServoPLCelevationStatus[0] & 1)
+                printf(" Jack screw fault.\n");  
+
+  if (ioStatusResp.ServoPLCelevationStatus[0] & 1)
                 printf(" El Computer disabled.\n");
   if (ioStatusResp.ServoPLCelevationStatus[0] & 2)
                 printf(" El Axis disabled.\n");
