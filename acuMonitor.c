@@ -6,6 +6,11 @@ Nimesh Patel
 
 version 1.0
 23 May 2023
+
+version 2.0
+23 June 2026
+Some bug fixes related to redis and variable types. 
+Used valgrind to debug some memory leak issues and fixed them.
 	
 This code has acu monitoring points that used to be in glttrack.c.
 This version uses redis instead of dsm.
@@ -40,10 +45,6 @@ This version uses redis instead of dsm.
 #include "acuCommands.h"
 
 #define ACC "gltobscon"
-
-/* redis server (gltobscon) */
-#define REDIS_SERVER "192.168.1.141"
-#define REDIS_PORT 6379
 
 /* ACU ports, see 3.1.1.2 of ICD */
 #define ACU_MONITOR_PORT 9110
@@ -84,6 +85,14 @@ extern void metrology();
 
 struct sigaction action, old_action;
 int sigactionInt;
+
+static volatile int running = 1;
+
+/* signal handler */
+static void handle_sigint(int sig) {
+    (void)sig;
+    running = 0;
+}
 
 pthread_t	ACUstatusTID,ACUiostatusTID,ACUselftestTID ;
 
@@ -318,13 +327,67 @@ redisInitTimeSeries("met.motCurrentEl2");
 redisInitTimeSeries("met.motCurrentEl3");
 redisInitTimeSeries("met.motCurrentEl4");
 
-while(1) {
+/* FIX: initialize TimeSeries keys for all 42 temperature sensors
+   written by metrology() — these were missing from the original. */
+redisInitTimeSeries("met.tempSensor0");
+redisInitTimeSeries("met.tempSensor1");
+redisInitTimeSeries("met.tempSensor2");
+redisInitTimeSeries("met.tempSensor3");
+redisInitTimeSeries("met.tempSensor4");
+redisInitTimeSeries("met.tempSensor5");
+redisInitTimeSeries("met.tempSensor6");
+redisInitTimeSeries("met.tempSensor7");
+redisInitTimeSeries("met.tempSensor8");
+redisInitTimeSeries("met.tempSensor9");
+redisInitTimeSeries("met.tempSensor10");
+redisInitTimeSeries("met.tempSensor11");
+redisInitTimeSeries("met.tempSensor12");
+redisInitTimeSeries("met.tempSensor13");
+redisInitTimeSeries("met.tempSensor14");
+redisInitTimeSeries("met.tempSensor15");
+redisInitTimeSeries("met.tempSensor16");
+redisInitTimeSeries("met.tempSensor17");
+redisInitTimeSeries("met.tempSensor18");
+redisInitTimeSeries("met.tempSensor19");
+redisInitTimeSeries("met.tempSensor20");
+redisInitTimeSeries("met.tempSensor21");
+redisInitTimeSeries("met.tempSensor22");
+redisInitTimeSeries("met.tempSensor23");
+redisInitTimeSeries("met.tempSensor24");
+redisInitTimeSeries("met.tempSensor25");
+redisInitTimeSeries("met.tempSensor26");
+redisInitTimeSeries("met.tempSensor27");
+redisInitTimeSeries("met.tempSensor28");
+redisInitTimeSeries("met.tempSensor29");
+redisInitTimeSeries("met.tempSensor30");
+redisInitTimeSeries("met.tempSensor31");
+redisInitTimeSeries("met.tempSensor32");
+redisInitTimeSeries("met.tempSensor33");
+redisInitTimeSeries("met.tempSensor34");
+redisInitTimeSeries("met.tempSensor35");
+redisInitTimeSeries("met.tempSensor36");
+redisInitTimeSeries("met.tempSensor37");
+redisInitTimeSeries("met.tempSensor38");
+redisInitTimeSeries("met.tempSensor39");
+redisInitTimeSeries("met.tempSensor40");
+redisInitTimeSeries("met.tempSensor41");
+
+/* register SIGINT handler for clean shutdown */
+action.sa_handler = handle_sigint;
+sigemptyset(&action.sa_mask);
+action.sa_flags = 0;
+sigaction(SIGINT, &action, &old_action);
+
+while(running) {
 metrology();
 sleep(1);
 }
 
-
-return(0);
+/* reached on SIGINT: running set to 0 by handle_sigint() */
+printf("Shutting down cleanly...\n");
+dsm_close();
+redisFree(redisC);
+return 0;
 }				/* end of main */
 
 
@@ -412,24 +475,30 @@ printf("Time: %d\n",acuStatusResp.timeOfDay);
 
         sprintf(redisData,"HSET acu azPosn %lf",az);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
         sprintf(redisData,"HSET acu elPosn %lf",el);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
         sprintf(redisData,"HSET acu azCmdPosn %lf",acuCmdAz);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
         sprintf(redisData,"HSET acu elCmdPosn %lf",acuCmdEl);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
   az_tracking_error = (float)(acuCmdAz-az)*3600.;
   el_tracking_error = (float)(acuCmdEl-el)*3600.;
 
         sprintf(redisData,"HSET gltTrackComp azTrackingError %f",az_tracking_error);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
         sprintf(redisData,"HSET gltTrackComp elTrackingError %f",el_tracking_error);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
   acuModeAz=acuStatusResp.azStatusMode;
   acuModeEl=acuStatusResp.elStatusMode;
@@ -470,8 +539,10 @@ printf("Time: %d\n",acuStatusResp.timeOfDay);
 */
         sprintf(redisData,"HSET acu dayOfYear %d",acuDay);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu hour %d",acuHour);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
 
 /*
@@ -768,29 +839,41 @@ printf("Time: %d\n",ioStatusResp.timeOfDay);
 
         sprintf(redisData,"HSET acu azMotor1Temp %hd",azmotor1temp);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu azMotor2Temp %hd",azmotor2temp);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu elMotor1Temp %hd",elmotor1temp);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu elMotor2Temp %hd",elmotor2temp);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu elMotor3Temp %hd",elmotor3temp);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu elMotor4Temp %hd",elmotor4temp);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
         sprintf(redisData,"HSET acu azMotor1Current %f",az1motorcurrentF);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu azMotor2Current %f",az2motorcurrentF);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu elMotor1Current %f",el1motorcurrentF);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu elMotor2Current %f",el2motorcurrentF);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu elMotor3Current %f",el3motorcurrentF);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
         sprintf(redisData,"HSET acu elMotor4Current %f",el4motorcurrentF);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 
 
   } /* if recvBuff[0]  0x6 check */
