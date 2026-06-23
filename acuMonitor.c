@@ -42,7 +42,7 @@ This version uses redis instead of dsm.
 #define ACC "gltobscon"
 
 /* redis server (gltobscon) */
-#define REDIS_SERVER "192.168.1.11"
+#define REDIS_SERVER "192.168.1.141"
 #define REDIS_PORT 6379
 
 /* ACU ports, see 3.1.1.2 of ICD */
@@ -64,7 +64,7 @@ This version uses redis instead of dsm.
 
 
 /* redis server (gltobscon) */
-#define REDIS_SERVER "192.168.1.11"
+#define REDIS_SERVER "192.168.1.141"
 #define REDIS_PORT 6379
 
 /************************ Function declarations *************************/
@@ -106,31 +106,50 @@ struct timeval redisTimeout = {1,500000}; /*1.5 seconds for redis timeout */
 /* Functions to write data  to Redis */
 
 void redisWriteShort(char *hashName, char *fieldName, short variable) {
-        sprintf(redisData,"HSET %s %s %h",hashName,fieldName,variable);
+        sprintf(redisData,"HSET %s %s %hd",hashName,fieldName,variable);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 }
 
 void redisWriteInt(char *hashName, char *fieldName, int variable) {
         sprintf(redisData,"HSET %s %s %d",hashName,fieldName,variable);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 }
 void redisWriteFloat(char *hashName, char *fieldName,float variable) {
         sprintf(redisData,"HSET %s %s %f",hashName,fieldName,variable);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 }
 void redisWriteDouble(char *hashName, char *fieldName, double variable) {
         sprintf(redisData,"HSET %s %s %lf",hashName,fieldName,variable);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 }
 
 void redisTSADD(char *fieldName, double variable) {
         sprintf(redisData,"TS.ADD %s * %lf",fieldName,variable);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 }
 
 void redisWriteString(char *hashName, char *fieldName, char *variable) {
         sprintf(redisData,"HSET %s %s %s",hashName,fieldName,variable);
         redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
+}
+
+#define TS_RETENTION_MS 31536000000LL  /* 1 year in milliseconds */
+
+/* Create a TimeSeries key with retention if new, or update retention if it
+   already exists. TS.CREATE fails on existing keys so we call TS.ALTER too. */
+void redisInitTimeSeries(char *keyName) {
+        sprintf(redisData,"TS.CREATE %s RETENTION %lld",keyName,TS_RETENTION_MS);
+        redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
+        sprintf(redisData,"TS.ALTER %s RETENTION %lld",keyName,TS_RETENTION_MS);
+        redisResp = redisCommand(redisC,redisData);
+        if (redisResp) freeReplyObject(redisResp);
 }
 
 
@@ -208,6 +227,7 @@ int main(int argc, char *argv[]) {
           } else {
             printf("Connection error: can't allocate redis context\n");
         }
+        exit(1);
        }
 
 
@@ -262,19 +282,45 @@ int main(int argc, char *argv[]) {
 	pthread_setschedparam(ACUiostatusTID,policy,&param4);
 */
 
-/*
-icount=0;
-*/
+/* Initialize all TimeSeries keys with 1-year retention */
+redisInitTimeSeries("met.temperature");
+redisInitTimeSeries("met.pressure");
+redisInitTimeSeries("met.humidity");
+redisInitTimeSeries("met.windspeed");
+redisInitTimeSeries("met.winddir");
+redisInitTimeSeries("met.tilt1x");
+redisInitTimeSeries("met.tilt1y");
+redisInitTimeSeries("met.tilt2x");
+redisInitTimeSeries("met.tilt2y");
+redisInitTimeSeries("met.tilt3x");
+redisInitTimeSeries("met.tilt3y");
+redisInitTimeSeries("met.tilt1Temp");
+redisInitTimeSeries("met.tilt2Temp");
+redisInitTimeSeries("met.tilt3Temp");
+redisInitTimeSeries("met.linearSensor1");
+redisInitTimeSeries("met.linearSensor2");
+redisInitTimeSeries("met.linearSensor3");
+redisInitTimeSeries("met.linearSensor4");
+redisInitTimeSeries("met.tiltAzCorr");
+redisInitTimeSeries("met.tiltElCorr");
+redisInitTimeSeries("met.spemAzCorr");
+redisInitTimeSeries("met.spemElCorr");
+redisInitTimeSeries("met.motTempAz1");
+redisInitTimeSeries("met.motTempAz2");
+redisInitTimeSeries("met.motTempEl1");
+redisInitTimeSeries("met.motTempEl2");
+redisInitTimeSeries("met.motTempEl3");
+redisInitTimeSeries("met.motTempEl4");
+redisInitTimeSeries("met.motCurrentAz1");
+redisInitTimeSeries("met.motCurrentAz2");
+redisInitTimeSeries("met.motCurrentEl1");
+redisInitTimeSeries("met.motCurrentEl2");
+redisInitTimeSeries("met.motCurrentEl3");
+redisInitTimeSeries("met.motCurrentEl4");
+
 while(1) {
-/*
-if(icount%10==0) printf("\n");
- else printf(". ");
-*/
 metrology();
-sleep(60);
-/*
-icount++;
-*/
+sleep(1);
 }
 
 
@@ -720,17 +766,17 @@ printf("Time: %d\n",ioStatusResp.timeOfDay);
   el3motorcurrentF = (float)el3motorcurrent / 10.0;
   el4motorcurrentF = (float)el4motorcurrent / 10.0;
 
-        sprintf(redisData,"HSET acu azMotor1Temp %h",azmotor1temp);
+        sprintf(redisData,"HSET acu azMotor1Temp %hd",azmotor1temp);
         redisResp = redisCommand(redisC,redisData);
-        sprintf(redisData,"HSET acu azMotor2Temp %h",azmotor2temp);
+        sprintf(redisData,"HSET acu azMotor2Temp %hd",azmotor2temp);
         redisResp = redisCommand(redisC,redisData);
-        sprintf(redisData,"HSET acu elMotor1Temp %h",elmotor1temp);
+        sprintf(redisData,"HSET acu elMotor1Temp %hd",elmotor1temp);
         redisResp = redisCommand(redisC,redisData);
-        sprintf(redisData,"HSET acu elMotor2Temp %h",elmotor2temp);
+        sprintf(redisData,"HSET acu elMotor2Temp %hd",elmotor2temp);
         redisResp = redisCommand(redisC,redisData);
-        sprintf(redisData,"HSET acu elMotor3Temp %h",elmotor3temp);
+        sprintf(redisData,"HSET acu elMotor3Temp %hd",elmotor3temp);
         redisResp = redisCommand(redisC,redisData);
-        sprintf(redisData,"HSET acu elMotor4Temp %h",elmotor4temp);
+        sprintf(redisData,"HSET acu elMotor4Temp %hd",elmotor4temp);
         redisResp = redisCommand(redisC,redisData);
 
         sprintf(redisData,"HSET acu azMotor1Current %f",az1motorcurrentF);
